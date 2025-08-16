@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="{% static 'css/order_history.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">BillYear</div>
+        <div class="nav-links" id="navLinks">
+            <a href="/home/">Home</a>
+            <a href="/search/">Search</a>
+            <a href="#">Order History</a>
+            <a href="/sales_report/">Sales Report</a>
+            <a href="{% url 'supplier_payment' %}">supplier_payment</a>
+            {% comment %} <a href="{% url 'cart' %}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a> {% endcomment %}
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
+     
+
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search by Customer, Date, Time, Order ID, Payment Mode...">
+        </div>
+
+        <!-- Order Cards -->
+        {% for order in orders %}
+        <div class="order-card" style="display: none;"
+              data-order-id="{{ order.order_id }}"
+              data-search="{{ order.customer_name|lower }} {{ order.payment_mode|default:""|lower }} {{ order.created_at|date:'d-m-Y'|lower }} {{ order.created_at|time:'h:i a'|lower }} {{ order.order_id|default:''|lower }}">
+
+
+            
+            <div class="order-header">Order ID: {{ order.order_id }}</div>
+            
+            <div class="order-info">
+                <strong>Customer:</strong> {{ order.customer_name }}<br>
+                <br>
+                <strong>Product Name:</strong> {{ order.product_name }}<br>
+                <br>
+                <strong>Product ID:</strong> {{ order.product.id }}<br>
+                <br>
+                <strong>Payment Mode:</strong> {{ order.payment_method }}<br>
+                <br>
+                <strong>Date & Time:</strong> {{ order.created_at|date:'d-M-Y' }} {{ order.created_at|time:'h:i A' }}<br>
+                <br>
+                <strong>Items:</strong> {{ order.item_summary }}
+            </div>
+
+            <div class="read-more-content">
+                <div class="order-info">
+                    <strong>Subtotal:</strong> ₹{{ order.subtotal|floatformat:2 }}<br> <br>
+                    <strong>IGST:</strong> ₹{{ order.igst|floatformat:2 }}<br>
+                    <br>
+                    <strong>Total:</strong> ₹{{ order.total|floatformat:2 }}
+                    <br>
+                    <br>
+                    
+                    {% if order.due_amount and order.due_amount > 0 %}
+                        <strong>Paid:</strong> ₹{{ order.paid_amount|floatformat:2 }}<br><br>
+                        <strong>Payment Due:</strong> ₹{{ order.due_amount|floatformat:2 }}<br><br>
+                    {% else %}
+                        <strong>Paid:</strong> ₹{{ order.total|floatformat:2 }}<br><br>
+                        <strong>Payment Due:</strong> ₹0.00<br><br>
+                    {% endif %}
+
+
+
+                </div>
+                <div class="download-btn">
+                    <button onclick="downloadPDF('{{ order.order_id }}')">Download PDF</button>
+                    <button onclick="downloadImage('{{ order.order_id }}')">Download Image</button>
+                    <button style ="width:90px;" onclick="enableEdit(this)">Edit</button>
+                </div>
+            </div>
+
+            <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 GroceryCart. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function enableEdit(button) {
+            let orderCard = button.closest('.order-card');
+            let infoBlocks = orderCard.querySelectorAll('.order-info');
+        
+            if (button.innerText === "Edit") {
+                infoBlocks.forEach(block => {
+                    block.querySelectorAll('strong').forEach(strongEl => {
+                        let textNode = strongEl.nextSibling;
+                        if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+                            let span = document.createElement('span');
+                            span.contentEditable = true;
+                            span.innerText = textNode.textContent.trim();
+                            strongEl.after(span);
+                            textNode.remove();
+        
+                            // Detect Payment Due change
+                            if (strongEl.innerText.includes("Payment Due")) {
+                                span.addEventListener("input", function () {
+                                    let dueValue = parseFloat(span.innerText.replace(/[^0-9.]/g, "")) || 0;
+        
+                                    // Get total
+                                    let totalSpan = Array.from(block.querySelectorAll("strong"))
+                                        .find(s => s.innerText.includes("Total"))
+                                        .nextElementSibling;
+                                    let totalValue = parseFloat(totalSpan.innerText.replace(/[^0-9.]/g, "")) || 0;
+        
+                                    // Find Paid field
+                                    let paidSpan = Array.from(block.querySelectorAll("strong"))
+                                        .find(s => s.innerText.includes("Paid"))
+                                        .nextElementSibling;
+        
+                                    // Update Paid
+                                    paidSpan.innerText = (totalValue - dueValue).toFixed(2);
+                                });
+                            }
+                        }
+                    });
+                });
+                button.innerText = "Save";
+            } else {
+                let updatedData = {};
+                updatedData["Order ID"] = orderCard.dataset.orderId;
+            
+                infoBlocks.forEach(block => {
+                    block.querySelectorAll('strong').forEach(strongEl => {
+                        let span = strongEl.nextElementSibling;
+                        if (span && span.tagName === "SPAN") {
+                            updatedData[strongEl.innerText.replace(':','').trim()] = span.innerText.trim();
+                        }
+                    });
+                });
+            
+                fetch("/update_order/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    body: JSON.stringify(updatedData)
+                })
+            
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Order updated!");
+                    } else {
+                        alert("Update failed: " + (data.error || "Unknown error"));
+                    }
+                });
+                
+        
+                button.innerText = "Edit";
+            }
+        }
+        
+    </script>
+
+        
+
+    <script src="{% static 'js/order_history.js' %}"></script>
+    <script src="{% static 'js/menu.js' %}" defer></script>
+</body>
+</html>

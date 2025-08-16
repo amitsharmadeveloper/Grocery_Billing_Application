@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{% static 'css/add_product.css' %}">
+</head>
+<body>
+    
+    <div class="form-container">
+        <h1>Add New Product</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>
+                <label for="id_id">ID:</label>
+                {{ form.id }}
+            </p>
+
+            <p>
+                <label for="id_name" autocomplete="off" />Name:</label>
+                {{ form.name }}
+            </p>
+
+            <p>
+                <label for="id_image">Image:</label>
+                {{ form.image }}
+            </p>
+
+            <p>
+                <label for="id_quantity">Quantity:</label>
+                {{ form.quantity }}
+            </p>
+
+            <p>
+                <label for="id_price">Price:</label>
+                {{ form.price }}
+            </p>
+
+            <p>
+                <label for="id_stock">Stock:</label>
+                {{ form.stock }}
+            </p>
+            
+            <p>
+                <label for="id_tax">Tax:</label>
+                {{ form.tax }}
+            </p>
+            
+            <button type="submit">Add Product</button>
+            
+        </form>
+    </div>
+
+    <script src="{% static 'js/add_product.js' %}" defer></script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message|escapejs }}");
+        {% endfor %}
+    </script>
+    {% endif %}
+</body>
+</html>
+ 

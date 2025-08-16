@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sales Report</title>
+  <link rel="stylesheet" href="{% static 'css/sales_report.css' %}" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">BillYear</div>
+  <div class="nav-links" id="navLinks">
+    <a href="/home/">Home</a>
+    <a href="/search/">Search</a>
+    <a href="#">Sales Report</a>
+    <a href="/order_history/">Order History</a>
+    <a href="{% url 'supplier_payment' %}">supplier_payment</a>
+    <a href="/cart/" class="cart-icon"><i class="fas fa-shopping-cart"></i></a> 
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</div>
+
+<div class="container">
+  <h1 class="heading">Sales Report</h1>
+
+
+  <!-- Filter Form -->
+  <form method="get" action="{% url 'sales_report' %}" class="date-filter">
+    <label for="start">Start Date:</label>
+    <input type="date" id="start" name="start" value="{{ start }}"/>
+
+    <label for="end">End Date:</label>
+    <input type="date" id="end" name="end" value="{{ end }}"/>
+
+    <label for="group_by">Group By:</label>
+    <select name="group_by" id="group_by" style="padding: 8px; border-radius: 20px; background-color: #111; color: white; border: 2px solid red; font-size: 18px;">
+      <option value="day" {% if group_by == "day" %}selected{% endif %}>Day</option>
+      <option value="week" {% if group_by == "week" %}selected{% endif %}>Week</option>
+      <option value="month" {% if group_by == "month" or not group_by %}selected{% endif %}>Month</option>
+      <option value="quarter" {% if group_by == "quarter" %}selected{% endif %}>Quarter</option>
+      <option value="year" {% if group_by == "year" %}selected{% endif %}>Year</option>
+    </select>
+
+    <button type="submit" class="btn">Generate Report</button>
+    
+  </form>
+
+  {% if filtered %}
+    {% if items %}
+      <div class="chart-container">
+        <!-- Summary -->
+        <div class="summary">
+          <p style="color:orange;"><strong>Total Orders:</strong> {{ total_orders }}</p>
+          <p style="color:orange;"><strong>Total Revenue:</strong> ₹{{ total_revenue }}</p>
+          <p style="color:orange;"><strong>Top Selling Product:</strong> {{ top_selling_product }}</p>
+          <p style="color:orange; margin-bottom:70px;"><strong>Least Selling Product:</strong> {{ least_selling_product }}</p>
+        </div>
+
+        <!-- Product-wise Sales Chart -->
+        <div class="bar-wrapper" style="margin-bottom:100px;">
+          <canvas id="barChart"></canvas>
+        </div>
+        
+        <!-- Grouped Revenue Trend Chart -->
+        <div class="bar-wrapper" style="margin-top: 40px;">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div class="export-buttons">
+        <a href="{% url 'download_sales_report' 'pdf' %}?start={{ start }}&end={{ end }}&group_by={{ group_by }}">
+          <button class="download-btn">Download PDF</button>
+        </a>
+        <a href="{% url 'download_sales_report' 'image' %}?start={{ start }}&end={{ end }}&group_by={{ group_by }}">
+          <button class="download-btn">Download Image</button>
+        </a>
+      </div>
+    {% else %}
+      <div class="no-data">
+        <h2>No sales data found for selected date range.</h2>
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% if filtered and items %}
+<script>
+    const productLabels = {{ chart_labels|safe }};
+    const productData = {{ chart_values|safe }};
+    const trendLabels = {{ revenue_labels|safe }};
+    const trendData = {{ revenue_values|safe }};
+
+  
+    const ctx1 = document.getElementById('barChart').getContext('2d');
+    const ctx2 = document.getElementById('trendChart').getContext('2d');
+  
+    // Gradient for product bars
+    const productGradients = productData.map((_, i) => {
+      const g = ctx1.createLinearGradient(0, 0, 0, 300);
+      g.addColorStop(0, 'rgba(255, 0, 0, 0.9)');
+      g.addColorStop(1, 'rgba(0, 0, 0, 0.8)');
+      return g;
+    });
+  
+    const trendGradients = trendData.map((_, i) => {
+      const g = ctx2.createLinearGradient(0, 0, 0, 300);
+      g.addColorStop(0, 'rgba(255, 0, 0, 0.9)');
+      g.addColorStop(1, 'rgba(0, 0, 0, 0.8)');
+      return g;
+    });
+  
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: productLabels,
+        datasets: [{
+          label: 'Sales Quantity',
+          data: productData,
+          backgroundColor: productGradients,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: '#ff3333',
+          hoverBackgroundColor: '#ff4444'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: "Product-wise Sales Quantity", color: 'red',font: { size: 22 } }
+        },
+        scales: {
+          x: { ticks: { color: 'orange',font: {
+            size: 20,
+            weight: 'bold'
+        } }, grid: { color: '#333' } },
+          y: { beginAtZero: true, ticks: { color: 'white', font: {
+            size: 20,  // ⬅️ set this higher for x-axis labels
+            weight: 'bold'
+        }
+ }, grid: { color: '#333' } }
+        }
+      }
+    });
+  
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: trendLabels,
+        datasets: [{
+          label: 'Revenue ₹',
+          data: trendData,
+          backgroundColor: trendGradients,
+          borderColor: '#ff3333',
+          borderWidth: 1,
+          borderRadius: 10,
+          hoverBackgroundColor: '#ff4444'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: "Revenue Comparison ({{ group_by|title }})", color: 'red',font: { size: 22 } }
+        },
+        scales: {
+          x: { ticks: { color: 'orange', font: {
+            size: 20,  // ⬅️ set this higher for x-axis labels
+            weight: 'bold'
+        } }, grid: { color: '#444' } },
+          y: { beginAtZero: true, ticks: { color: 'white', font: {
+            size: 20,  // ⬅️ set this higher for x-axis labels
+            weight: 'bold'
+        }
+ }, grid: { color: '#444' } }
+        }
+      }
+    });
+  </script>  
+{% endif %}
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 GroceryCart. All rights reserved.</p>
+</footer>
+
+<script src="{% static 'js/menu.js' %}" defer></script>
+</body>
+</html>

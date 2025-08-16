@@ -1,0 +1,338 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage Supplier & Track Payment</title>
+<link rel="stylesheet" href="{% static 'css/supplier_payment.css' %}"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">BillYear</div>
+        <div class="nav-links" id="navLinks">
+            <a href="/home/">Home</a>
+            <a href="#">supplier_payment</a>
+            <a href="/search/">Search</a>
+            <a href="/order_history/">Order History</a>
+            <a href="/sales_report/">Sales Report</a>
+            
+            {% comment %} <a href="{% url 'cart' %}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a> {% endcomment %}
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
+
+
+<h2>Manage Supplier & Track Payment</h2>
+
+<div class="form-container">
+    <label>Supplier Name:</label>
+    <input type="text" id="supplier_name">
+
+    <label>GSTIN Number:</label>
+    <input type="text" id="gstin_number">
+
+    <label>Contact Number:</label>
+    <input type="text" id="contact">
+
+    <label>Email ID:</label>
+    <input type="email" id="email_id">
+
+    <label>Address:</label>
+    <input type="text" id="address">
+
+    <label>Product Name:</label>
+    <input type="text" id="product_name">
+
+    <label>GST Tax (%):</label>
+    <input type="number" id="gst_tax">
+
+    <label>Product Price (per item):</label>
+    <input type="number" id="product_price">
+
+    <label>Product Stock:</label>
+    <input type="number" id="product_stock">
+
+    <label>Discount:</label>
+    <select id="discount_option">
+        <option value="">--Select--</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+
+    <div id="discount_percentage_container" style="display:none;">
+        <label>Discount Percentage (%):</label>
+        <input type="number" id="discount_percentage">
+    </div>
+
+    <label>Amount:</label>
+    <input type="number" id="amount" readonly>
+
+    <label>Payment Due:</label>
+    <select id="payment_due">
+        <option value="">--Select--</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+
+    <div id="due_amount_container" style="display:none;">
+        <label>Due Amount:</label>
+        <input type="number" id="due_amount">
+    </div>
+
+    <label>Paid Total:</label>
+    <input type="number" id="paid_total" readonly>
+
+    <label>Payment Mode:</label>
+    <select id="payment_mode">
+        <option value="">--Select--</option>
+        <option value="Cash">Cash</option>
+        <option value="UPI">UPI</option>
+        <option value="Phone Pay">Phone Pay</option>
+        <option value="Google Pay">Google Pay</option>
+        <option value="Net Banking">Net Banking</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Debit Card">Debit Card</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+    </select>
+
+    <button class="savebutton" id="saveBtn">Save</button>
+</div>
+
+
+<h3>Supplier Records</h3>
+<table id="recordsTable">
+    <thead>
+        <tr>
+            <th>Supplier Name</th>
+            <th>Show Details</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<!-- Modal -->
+<div id="detailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3>Supplier & Payment Details</h3>
+        <table class="modal-table" id="modalTable"></table>
+    </div>
+</div>
+
+<script>
+    const discountOption = document.getElementById('discount_option');
+    const discountPercentageContainer = document.getElementById('discount_percentage_container');
+    const paymentDueSelect = document.getElementById('payment_due');
+    const dueAmountContainer = document.getElementById('due_amount_container');
+    const gstinInput = document.getElementById('gstin_number');
+    let editIndex = -1;
+
+    discountOption.addEventListener('change', function() {
+        discountPercentageContainer.style.display = (this.value === 'Yes') ? 'block' : 'none';
+        calculateAmount();
+    });
+    paymentDueSelect.addEventListener('change', function() {
+        dueAmountContainer.style.display = (this.value === 'Yes') ? 'block' : 'none';
+        if (this.value !== 'Yes') {
+            document.getElementById('due_amount').value = '';
+            document.getElementById('paid_total').value = document.getElementById('amount').value || 0;
+        }
+    });
+    document.getElementById('gst_tax').addEventListener('input', calculateAmount);
+    document.getElementById('product_price').addEventListener('input', calculateAmount);
+    document.getElementById('product_stock').addEventListener('input', calculateAmount);
+    document.getElementById('discount_percentage').addEventListener('input', calculateAmount);
+    document.getElementById('due_amount').addEventListener('input', function() {
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const due = parseFloat(this.value) || 0;
+        document.getElementById('paid_total').value = (amount - due).toFixed(2);
+    });
+
+    function calculateAmount() {
+        const price = parseFloat(document.getElementById('product_price').value) || 0;
+        const stock = parseInt(document.getElementById('product_stock').value) || 0;
+        const gstRate = parseFloat(document.getElementById('gst_tax').value) || 0;
+        const discountChoice = discountOption.value;
+    
+        // Step 1: Total before tax
+        let totalBeforeTax = price * stock;
+    
+        // Step 2: Apply discount if applicable
+        if (discountChoice === 'Yes') {
+            const discountPerc = parseFloat(document.getElementById('discount_percentage').value) || 0;
+            totalBeforeTax -= (totalBeforeTax * discountPerc / 100);
+        }
+    
+        // Step 3: Calculate GST amount
+        let gstAmount = 0;
+        if (gstRate > 0) {
+            gstAmount = (totalBeforeTax * gstRate) / 100;
+        }
+    
+        // Step 4: Total after tax
+        let totalAfterTax = totalBeforeTax + gstAmount;
+    
+        // Step 5: Update fields
+        document.getElementById('amount').value = totalAfterTax.toFixed(2);
+    
+        const due = parseFloat(document.getElementById('due_amount').value) || 0;
+        document.getElementById('paid_total').value = (totalAfterTax - due).toFixed(2);
+    }
+    
+    
+
+    window.onload = function() {
+        refreshTable();
+    };
+
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const now = new Date();
+        const formattedDateTime = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        const data = {
+            supplier_name: document.getElementById('supplier_name').value.trim(),
+            gstin_number: gstinInput.value.trim(),
+            contact: document.getElementById('contact').value.trim(),
+            email_id: document.getElementById('email_id').value.trim(),
+            gst_tax: document.getElementById('gst_tax').value.trim(),
+            product_name: document.getElementById('product_name').value.trim(),
+            address: document.getElementById('address').value.trim(),
+            product_price: document.getElementById('product_price').value.trim(),
+            product_stock: document.getElementById('product_stock').value.trim(),
+            discount: discountOption.value === "Yes" ? document.getElementById('discount_percentage').value.trim() + "%" : "No",
+            amount: document.getElementById('amount').value.trim(),
+            payment_due: document.getElementById('payment_due').value,
+            due_amount: document.getElementById('payment_due').value === 'No' ? '-' : document.getElementById('due_amount').value.trim(),
+            paid_total: document.getElementById('paid_total').value.trim(),
+            payment_mode: document.getElementById('payment_mode').value,
+            date_time: formattedDateTime
+        };
+        let storedData = JSON.parse(localStorage.getItem('supplierData')) || [];
+        if (editIndex === -1) {
+            storedData.push(data);
+        } else {
+            storedData[editIndex] = data;
+            editIndex = -1;
+        }
+        localStorage.setItem('supplierData', JSON.stringify(storedData));
+        refreshTable();
+
+        // Call backend to generate PDF
+        fetch("{% url 'send_supplier_bill' %}", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-CSRFToken": getCookie("csrftoken") },
+            body: JSON.stringify({
+                supplier_email: data.email_id,
+                bill_details_data: data
+            })
+        })
+        .then(res => res.json())
+        .then(response => {
+            if (response.status === "success") {
+                const a = document.createElement('a');
+                a.href = response.file_url;
+                a.download = '';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } else {
+                alert(response.message || "Failed to generate PDF");
+            }
+        })
+        .catch(err => console.error(err));
+
+        clearForm();
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function refreshTable() {
+        const tableBody = document.querySelector('#recordsTable tbody');
+        tableBody.innerHTML = '';
+        let storedData = JSON.parse(localStorage.getItem('supplierData')) || [];
+        storedData.forEach((data, index) => {
+            const row = tableBody.insertRow();
+            row.insertCell().textContent = data.supplier_name;
+            const detailsCell = row.insertCell();
+            const detailsBtn = document.createElement('button');
+            detailsBtn.textContent = "Show Details";
+            detailsBtn.classList.add('details-btn');
+            detailsBtn.onclick = () => showModal(data);
+            detailsCell.appendChild(detailsBtn);
+            const editCell = row.insertCell();
+            const editBtn = document.createElement('button');
+            editBtn.textContent = "Edit";
+            editBtn.classList.add('edit-btn');
+            editBtn.onclick = () => loadRowData(index);
+            editCell.appendChild(editBtn);
+        });
+    }
+
+    function loadRowData(index) {
+        let storedData = JSON.parse(localStorage.getItem('supplierData')) || [];
+        const data = storedData[index];
+        document.getElementById('supplier_name').value = data.supplier_name;
+        gstinInput.value = data.gstin_number;
+        document.getElementById('contact').value = data.contact;
+        document.getElementById('email_id').value = data.email_id;
+        document.getElementById('address').value = data.address;
+        document.getElementById('product_name').value = data.product_name;
+        document.getElementById('gst_tax').value = data.gst_tax;
+        document.getElementById('product_price').value = data.product_price;
+        document.getElementById('product_stock').value = data.product_stock;
+        if (data.discount !== "No") {
+            discountOption.value = "Yes";
+            document.getElementById('discount_percentage').value = data.discount.replace("%", "");
+            discountPercentageContainer.style.display = 'block';
+        } else {
+            discountOption.value = "No";
+            discountPercentageContainer.style.display = 'none';
+        }
+        document.getElementById('amount').value = data.amount;
+        document.getElementById('payment_due').value = data.payment_due;
+        document.getElementById('due_amount').value = data.due_amount === '-' ? '' : data.due_amount;
+        document.getElementById('paid_total').value = data.paid_total;
+        document.getElementById('payment_mode').value = data.payment_mode;
+        paymentDueSelect.dispatchEvent(new Event('change'));
+        editIndex = index;
+    }
+
+    function showModal(data) {
+        const modalTable = document.getElementById('modalTable');
+        modalTable.innerHTML = `
+            <tr><th>Product Name</th><td>${data.product_name}</td></tr>
+            <tr><th>Product Tax</th><td>${data.gst_tax}</td></tr>
+            <tr><th>Product Price</th><td>${data.product_price}</td></tr>
+            <tr><th>Product Stock</th><td>${data.product_stock}</td></tr>
+            <tr><th>Discount</th><td>${data.discount}</td></tr>
+            <tr><th>Amount</th><td>${data.amount}</td></tr>
+            <tr><th>Payment Due</th><td>${data.payment_due}</td></tr>
+            <tr><th>Due Amount</th><td>${data.due_amount}</td></tr>
+            <tr><th>Paid Total</th><td>${data.paid_total}</td></tr>
+            <tr><th>Payment Mode</th><td>${data.payment_mode}</td></tr>
+            <tr><th>Date & Time</th><td>${data.date_time}</td></tr>
+        `;
+        document.getElementById('detailsModal').style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById('detailsModal').style.display = "none";
+    }
+</script>
+<script src="{% static 'js/menu.js' %}" defer></script>
+</body>
+</html>

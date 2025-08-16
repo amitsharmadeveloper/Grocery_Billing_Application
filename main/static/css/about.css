@@ -1,0 +1,93 @@
+/* about.css */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: red;
+    padding: 10px 20px;
+    position: sticky;
+    top:0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.hamburger {
+    display: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.about-section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.about-section h1 {
+    font-size: 36px;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.about-section .para1 {
+    font-size: 20px;
+    color: #ffcccc;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.about-section .para2 {
+    font-size: 20px;
+    color: #ff9999;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.about-section .para3 {
+    font-size: 20px;
+    color: #ff6666;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: red;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        text-align: right;
+        padding: 10px;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}

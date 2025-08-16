@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <title>Search Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">BillYear</div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">Search</a></li>
+            <li><a href="{% url 'order_history' %}">Order History</a></li>
+            <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+            <li><a href="{% url 'supplier_payment' %}">supplier_payment</a></li>
+            <li><a href="{% url 'cart' %}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Search bar -->
+    <div class="search-container">
+         <form method="get" class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+             <!--  Wrap the input and suggestion box properly -->
+            
+                <input type="text" name="q" placeholder="Search for products..." id="searchInput" autocomplete="off">
+            
+            <div class="search-actions">
+            <i class="fa-solid fa-microphone" onclick="startVoiceSearch()"></i>
+            <label for="image-upload"><i class="fa-solid fa-image"></i></label>
+            <input type="file" id="image-upload" style="display:none;" onchange="previewImageSearch()">
+            </div>
+        </form>
+    </div>
+
+    <!-- Product Display -->
+    <div class="product-grid">
+        {% for product in products %}
+<div class="product-card">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    <div class="product-divider"></div> 
+    <div class="product-card-content">
+        <h3>{{ product.name }}</h3>
+        <p>Quantity: {{ product.quantity }}</p>
+        <p>Price: ₹{{ product.price }}</p>
+        <p>Stock: {{ product.stock }}</p>
+        <p>Tax: {{ product.tax }}</p>
+
+        {% if product.stock > 0 %}
+            <a href="{% url 'add_to_cart' product.id %}" class="btn">Add to Cart</a>
+        {% else %}
+            <button class="btn" disabled style="background-color: gray; cursor: not-allowed;">
+                Out of Stock
+            </button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+    </div>
+
+    <div id="search-status">
+        {% if not products and not_found %}
+            <p>Product isn't available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 GroceryCart. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/search.js' %}"></script> 
+</body>
+</html>

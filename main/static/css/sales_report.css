@@ -1,0 +1,380 @@
+body, html {
+  background-color: black;
+  color: white;
+  font-family: Arial;
+  padding: 20px;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+.navbar {
+  width: 100%;
+  background: red;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  box-shadow: 0 2px 5px red;
+  top:0;
+  position:sticky;
+  z-index: 1000;
+  box-shadow: 0 3px 10px rgba(255, 0, 0, 0.2);
+}
+
+.navbar .logo {
+  font-size: 22px;
+  font-weight: bold;
+  color:white;
+}
+
+.navbar .nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 30px;
+  font-size: 16px;
+  transition: transform 0.2s ease, color 0.3s ease;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  
+}
+
+.navbar .nav-links a:hover {
+  transform: scale(1.05);
+  text-shadow: 1px 1px 5px black;
+}
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+} 
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  margin-top: 150px;
+  box-sizing: border-box;
+}
+
+.container > h1 {
+  color:red;
+  text-align: center;
+  font-size: 28px;
+}
+
+label{
+  font-size: 24px;
+  margin-left: 50px;
+}
+
+
+.date-filter input , .date-filter button {
+
+  padding: 8px;
+  margin: 25px 5px;
+  background: #111;
+  border: 2px solid red;
+  border-radius: 25px;
+  color: white;
+  width:220px;
+  height:40px;
+  font-size: 24px;
+  margin-left: 10px;
+
+
+}
+.date-filter button {
+  background: linear-gradient(145deg, #ff1a1a, #cc0000);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-left: 25vw;
+  margin-top: 40px;
+  width: fit-content;
+  text-align: center;
+  height: 50px;
+
+}
+.date-filter button:hover {
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+
+}
+.summary, .export-buttons {
+  margin: 20px 0;
+}
+.export-buttons{
+  margin-left: 180px;
+}
+.summary > p {
+  margin-right: 25px;
+  margin-top: 50px;
+  gap:25px;
+  font-size: 20px;
+}
+.export-buttons button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  margin-left: 40px;
+  border: none;
+  font-weight: bold;
+  background: linear-gradient(145deg, #ff1a1a, #cc0000);
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: fit-content;
+  text-align: center;
+  font-size: 25px;
+  margin-top: 40px;
+}
+.export-buttons button:hover {
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+
+}
+.chart-container {
+  background-color: #111;
+  padding: 20px;
+  border: 2px solid red;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+  margin-top: 30px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 30px;
+  border: 2px solid red;
+}
+
+footer {
+  background: rgba(23, 10, 0, 0.871);
+  color:white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 200px;
+  font-size: 1.2rem;
+}
+
+/* Mobile (<768px) */
+@media (max-width: 768px) {
+  .navbar {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 10px 15px;
+  }
+
+  .hamburger {
+      display: block;
+      font-size: 30px;
+      color: white;
+      margin-right: 20px;
+  }
+
+  .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #111;
+      position: absolute;
+      width: 50%;
+      top: 65px;
+      right: 0;
+      padding: 10px 0;
+      z-index: 999;
+  }
+
+  .nav-links.show {
+      display: flex;
+  }
+
+  .nav-links a {
+      color: white;
+      padding: 10px 20px;
+      text-align: right;
+      font-size: 18px;
+      margin-right: 20px;
+  }
+.container{
+  margin-top: 20px;
+}
+  .date-filter {
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+  }
+label{
+  margin-left: 20px;
+}
+  .date-filter input,
+  .date-filter button {
+      width: 50%;
+      margin: 10px auto;
+      font-size: 16px;
+      margin-left: 10px;
+  }
+  .date-filter button{
+    margin-left: 100px;
+    margin-top: 40px;
+  }
+  .summary p {
+      font-size: 14px;
+      margin-left: 10px;
+      margin-top: 25px;
+      text-align: left;
+      line-height: 0.4;
+  }
+
+  .bar-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+canvas#barChart {
+    min-width: 600px;
+    height: 300px !important;
+    display: block;
+    margin: 0 auto;
+}
+
+  .chart-container {
+    background-color: #111;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 2px solid red;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    margin-top: 30px;
+  }
+  .export-buttons {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      margin-left: 55px;
+  }
+
+  .export-buttons button {
+      width: fit-content;
+      font-size: 12px;
+      margin-bottom: 10px;
+      border: none;
+      font-weight: bold;
+      background: linear-gradient(145deg, #ff1a1a, #cc0000);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      
+  }
+  .export-buttons button:hover {
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+  
+  }
+  h1.heading {
+      font-size: 22px;
+      text-align: center;
+      margin-top: 15px;
+  }
+}
+
+/* Tablet (768px to 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.hamburger {
+    display: block;
+    font-size: 30px;
+    color: white;
+    margin-right: 20px;
+}
+
+.nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    position: absolute;
+    width: 50%;
+    top: 65px;
+    right: 0;
+    padding: 10px 0;
+    z-index: 999;
+}
+
+.nav-links.show {
+    display: flex;
+}
+
+.nav-links a {
+    color: white;
+    padding: 10px 20px;
+    text-align: right;
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+  .date-filter {
+      flex-direction: row;
+      justify-content: center;
+      gap: 15px;
+  }
+
+  .date-filter input,
+  .date-filter button {
+      width: 200px;
+      font-size: 18px;
+  }
+
+  .export-buttons {
+      flex-direction: row;
+      justify-content: center;
+      gap: 45px;
+      margin-left: 150px;
+  }
+
+  .export-buttons button {
+      font-size: 18px;
+  }
+}
+
+ @media (max-width: 320px){
+  .date-filter input,
+  .date-filter button {
+      width: 45%;
+      margin: 10px auto;
+      font-size: 16px;
+      margin-left: 10px;
+  }
+  .date-filter button{
+    margin-left: 100px;
+    margin-top: 40px;
+    width: fit-content;
+  }
+  label{
+    font-size: 18px;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    position: absolute;
+    width: 60%;
+    top: 65px;
+    right: 0;
+    padding: 10px 0;
+    z-index: 999;
+}
+} 

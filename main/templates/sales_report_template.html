@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sales Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+        }
+        h2 {
+            text-align: center;
+            color: red;
+        }
+        .summary {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 6px;
+            text-align: center;
+        }
+        th{
+            background-color: #b30000; /* Deep red */
+            color: white;  
+        }
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Sales Report</h2>
+
+    <div class="summary">
+        <p><strong>Total Orders:</strong> {{ total_orders }}</p>
+        <p><strong>Total Revenue:</strong> RS. {{ total_revenue|floatformat:2 }}</p>
+    </div>
+    
+    <div style="margin-top: 20px; background: #000; color: #fff; padding: 10px; border-left: 4px solid red;">
+        <p style="color:red; font-size:18px;"><strong>Top Selling Product:</strong> {{ top_selling_product }}</p>
+        <p style="color:red; font-size:18px;"><strong>Least Selling Product:</strong> {{ least_selling_product }}</p>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+                <th>Payment<br>mode</th>
+                
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.order_id }}</td>
+                <td style="width:100px;">{{ row.customer }}</td>
+                <td>{{ row.product }}</td>
+                <td style="width:60px;">{{ row.qty }}</td>
+                <td>{{ row.price }}</td>
+                <td>{{ row.subtotal|floatformat:2 }}</td>
+                <td>{{ row.total|floatformat:2 }}</td>
+                <td style="width:60px;">{{ row.payment_method}}</td>
+                <td>{{ row.date }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if chart_image %}
+        <div style="text-align:center; margin:20px 0;">
+            <img src="{{ chart_image }}" alt="Sales Chart" style="width:80%; max-height:300px;">
+        </div>
+    {% endif %}
+
+
+
+    <div class="footer">
+        Thank you for checking the report!
+    </div>
+
+</body>
+</html>
+

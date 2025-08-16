@@ -1,0 +1,41 @@
+<!-- login.html placeholder -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoginPage</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <script src="{% static 'js/menu.js' %}" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">BillYear</div>
+        <div class="nav-links" id="navLinks">
+             {% comment %} <a href="{% url 'home' %}">Home</a> {% endcomment %}
+           <!-- <a href="{% url 'about' %}">About Us</a>-->
+            <a href="{% url 'contact' %}">Contact Us</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </nav>
+    <h2 class="form-title">Login</h2>
+    <!-- Login Form -->
+    <div class="login-container">
+        
+        <form method="POST">
+            
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>  

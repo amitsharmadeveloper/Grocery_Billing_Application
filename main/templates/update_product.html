@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Product</title>
+    <link rel="stylesheet" href="{% static 'css/update_product.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Update Product</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="id_name">Name:</label>
+            {{ form.name }}
+
+            <label for="id">id:</label>
+            {{ form.id }}
+
+            <label for="id_image">Image:</label>
+            {% if form.instance.image %}
+                <p style="color:white;">
+                     Current: 
+                     <a class="image_link" href="{{ form.instance.image.url }}" target="_blank">
+            {{ form.instance.image.name }}
+                     </a>
+                </p>
+            {% endif %}
+            <input type="file" name="image" id="id_image">
+
+
+            <label for="id_quantity">Quantity:</label>
+            {{ form.quantity }}
+
+            <label for="id_price">Price:</label>
+            {{ form.price }}
+
+            <label for="id_stock">Stock:</label>
+            {{ form.stock }}
+
+            <label for="id_tax">Tax:</label>
+            {{ form.tax }}
+
+            <button type="submit">Update Product</button>
+        </form>
+    </div>
+</body>
+</html>

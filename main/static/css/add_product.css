@@ -1,0 +1,286 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+   /* background-image: url("../images/admin_bgdimage.png");*/
+    background-color: #111; 
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.form-container h1 {
+    margin-top: 50px;
+    text-align: center;
+    margin-bottom: 30px;
+    color:red;
+    text-shadow: 1px 1px 5px black;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="file"],
+.form-container input[type="decimal"],
+.form-container textarea,
+.form-container select {
+    width: 700px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    font-size: 35px;
+    border: none;
+    border-radius: 50px;
+    background-color:rgb(142, 172, 10);
+    color: red;
+    font-size: 16px;
+    box-shadow: inset 2px 2px 5px black;
+}
+
+.form-container input:focus {
+    outline: none;
+    
+    box-shadow: 0 0 8px black;
+}
+
+.form-container button {
+    position: absolute;
+    width: 260px;
+    /*padding: 20px; */
+    left: 40%;
+    text-align: center;
+    background: linear-gradient(145deg, #ff1a1a, #cc0000);
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    height: 60px;
+}
+
+.form-container button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+}
+
+::placeholder {
+    color: #ddd;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    font-size: 25px;
+    margin-bottom: 5px;
+    margin-left: 13px;
+    color:white;
+}
+
+/* static/css/add_product.css */
+#id_name + div > div {
+    background-color: black;
+    color: red;
+    
+}
+
+/* Custom scrollbar for suggestion box */
+div::-webkit-scrollbar {
+    width: 12px;
+}
+
+div::-webkit-scrollbar-track {
+    background: black;
+    border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius: 10px;
+    border: 1px solid #2a2a2a;
+}
+
+
+
+/*#id_name + div > div:hover {
+    background-color: black;
+    color: red;
+} */
+
+
+
+/* Tablet and Mobile Responsive Styles */
+@media (max-width: 1024px) {
+     body {
+     background-color: black;
+        
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="number"],
+    .form-container input[type="file"],
+    .form-container input[type="decimal"],
+    .form-container textarea,
+    .form-container select {
+        width: 60vw;
+       
+        padding: 12px 15px;
+        font-size: 16px;
+        border-radius: 50px;
+        background-color: rgb(142, 172, 10);
+        color: red;
+        box-shadow: inset 2px 2px 5px black;
+    }
+
+    .form-container button {
+        position: absolute;
+        margin-top: 20px;
+        margin-left: -30px;
+        width: 300px;
+        border-radius: 30px;
+        padding: 20px;
+        font-size: 40px;
+        left: 330px;
+        height: fit-content;
+    }
+
+    label {
+        text-align: left;
+        width: 90%;
+        max-width: 700px;
+        font-size: 50px;
+    }
+
+    .form-container h1 {
+        font-size: 60px;
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 420px) {
+    body {
+    background-color: black;
+       
+   }
+
+   .form-container {
+       width: 100%;
+       padding: 20px;
+       display: flex;
+       align-items: center;
+       flex-direction: column;
+   }
+
+   .form-container input[type="text"],
+   .form-container input[type="number"],
+   .form-container input[type="file"],
+   .form-container input[type="decimal"],
+   .form-container textarea,
+   .form-container select {
+       width: 60vw;
+       
+       padding: 12px 15px;
+       font-size: 16px;
+       border-radius: 50px;
+       background-color: rgb(142, 172, 10);
+       color: red;
+       box-shadow: inset 2px 2px 5px black;
+   }
+
+   .form-container button {
+       position: static;
+       margin-top: 20px;
+       width: 90%;
+       max-width: 260px;
+       border-radius: 30px;
+       padding: 20px;
+       font-size: 40px;
+       height: fit-content;
+   }
+
+   label {
+       text-align: left;
+       width: 90%;
+       max-width: 700px;
+       font-size: 20px;
+   }
+
+   .form-container h1 {
+       font-size: 28px;
+       margin-top: 40px;
+   }
+}
+
+@media only screen and (max-width: 1080px) {
+    body {
+    background-color: black;
+       
+   }
+
+   .form-container h1 {
+    font-size: 28px;
+    margin-bottom: 100px;
+    }
+
+   .form-container {
+       margin-top:40px;
+       width: 100%;
+       padding: 20px;
+       display: flex;
+       align-items: center;
+       flex-direction: column;
+   }
+
+   .form-container input[type="text"],
+   .form-container input[type="number"],
+   .form-container input[type="file"],
+   .form-container input[type="decimal"],
+   .form-container textarea,
+   .form-container select {
+       width: 60vw;
+      
+       padding: 12px 15px;
+       font-size: 32px;
+       border-radius: 50px;
+       background-color: rgb(142, 172, 10);
+       color: red;
+       box-shadow: inset 2px 2px 5px black;
+   }
+
+   .form-container button {
+       position: absolute;
+       margin-top: 20px;
+       width: 430px;
+       border-radius: 50px;
+       padding: 20px;
+       font-size: 58px;
+       left: 330px;
+       height: fit-content;
+   }
+
+   label {
+       text-align: left;
+       width: 90%;
+       max-width: 700px;
+       font-size: 50px;
+   }
+
+   .form-container h1 {
+       font-size: 60px;
+       margin-top: 40px;
+   }
+}

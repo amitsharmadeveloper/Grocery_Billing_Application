@@ -1,0 +1,24 @@
+<!-- login.html placeholder -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoginPage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/admin_home.css' %}">
+</head>
+<body> 
+
+    <div class="button-container">
+        <button class="buttons"><a href="{% url 'add_product' %}">add product page</a></button>
+        <button class="buttons button2"><a href="{% url 'manage_products' %}">manage product page</a></button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 GroceryCart. All rights reserved.</p>
+    </footer>
+    
+</body>
+</html>  

@@ -1,0 +1,124 @@
+body {
+    background-color: #111;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    color: red;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.product-table th, .product-table td {
+    padding: 12px 15px;
+    border: 1px solid red;
+    text-align: left;
+    font-size: 18px;
+}
+
+.product-table th {
+    background-color: #222;
+    color: red;
+    font-weight: bold;
+}
+
+.product-table td {
+    background-color: #1a1a1a;
+}
+
+.product-name {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.product-name:hover {
+    color: red;
+}
+
+
+.action-btn {
+    background: linear-gradient(145deg, #ff1a1a, #cc0000);
+    padding: 8px 14px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: fit-content;
+    text-align: center;
+      
+}
+
+.action-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+}
+
+.delete{
+ margin-left: 50px;
+ width: 120px;
+}
+
+.update{
+    margin-left: 50px;
+    width: 100px;
+    margin-right: -220px;
+}
+
+.delete-btn {
+    background: linear-gradient(145deg, #ff1a1a, #cc0000);
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: fit-content;
+    text-align: center;
+    font-size: 25px;
+}
+
+.delete-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+}
+
+.update-form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #222;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 420px) {
+    .container {
+      margin-top: 60px;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .container {
+      margin-top: 60px;
+    }
+  }
+  

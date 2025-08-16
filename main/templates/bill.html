@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+   
+    <script src="{% static 'js/menu.js' %}" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="backgound-color:yellow">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">BillYear</div>
+        <div class="nav-links" id="navLinks">
+            <a href="{% url 'update' %}">Home</a>
+            <a href="{% url 'history' %}">About Us</a>
+            <a href="{% url 'vcreate' %}">Contact Us</a>
+            <a href="{% url 'Login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </nav>
+
+    <!-- Hero Section with Button -->
+    <div class="hero-image">
+        <div class="center-button-container">
+            <p>The pre tag preserves both spaces and line breaks:</p>
+
+<pre>
+   My Bonnie lies over the ocean.
+
+   My Bonnie lies over the sea.
+
+   My Bonnie lies over the ocean.
+   
+   Oh, bring back my Bonnie to me.
+</pre>
+        </div>
+    </div>
+
+    <!-- JS for conditional redirect -->
+    <script>
+       
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: rgba(128, 128, 128, 0.356);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar full width fix */
+.navbar {
+    width: 100%;
+    background: red;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    box-shadow: 0 2px 5px red;
+    top:0;
+    position:sticky;
+    z-index: 1000;
+    box-shadow: 0 3px 10px rgba(255, 0, 0, 0.2);
+}
+
+.navbar .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color:white;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 16px;
+    transition: transform 0.2s ease, color 0.3s ease;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    
+}
+
+.navbar .nav-links a:hover {
+    transform: scale(1.05);
+    text-shadow: 1px 1px 5px black;
+}
+.hamburger {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: white;
+} 
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 2px solid red;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px; /* You can increase this as needed */
+    margin-top: 180px;
+    margin-left: 60px;
+}
+
+.search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 15px;
+    font-size: 1rem;
+    outline: none;
+    padding-left: 30px;
+}
+
+.search-bar i {
+    color: red;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    padding-left: 20px;
+}
+
+.order-card {
+    background-color: #2b2b2b;
+    border-left: 6px solid red;
+    padding: 15px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.order-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 10px;
+}
+
+.order-info {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.read-more-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.read-more-btn {
+    background: linear-gradient(145deg, #ff1a1a, #cc0000);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: bold;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.read-more-btn:hover {
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+}
+
+.download-btn {
+    margin-top: 30px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+}
+
+.download-btn button {
+    background: linear-gradient(145deg, #ff1a1a, #cc0000);
+    color: white;
+    border: 2px solid red;
+    padding: 6px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 18px;
+}
+
+.download-btn button:hover {
+    color: white;
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+}
+
+footer {
+    background: rgba(23, 10, 0, 0.871);
+    color:white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50vh;
+    font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+    .navbar{
+        top:0;
+        z-index: 999;
+        position: sticky;
+    } 
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color:black;
+        position: absolute;
+        top: 63px;
+        right: 0;
+        width: 200px;
+        text-align: right;
+        padding: 20px;
+        box-shadow: -3px 0 10px rgba(0, 0, 0, 0.4);
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        color: white;
+        margin: 10px 0;
+        text-align: right;
+    }
+    .nav-links a:hover {   
+        text-shadow: 1px 1px 5px black;
+    }
+
+    .search-bar {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .order-card {
+        width: 90%;
+        margin: 0 auto 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .search-bar {
+        flex-direction: row;
+    }
+
+    .search-bar input {
+        font-size: 14px;
+    }
+
+    .order-card {
+        padding: 12px;
+    }
+
+    .download-btn button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
