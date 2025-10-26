@@ -8,7 +8,7 @@ SECRET_KEY = 'your-secret-key'  # Change this!
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://grocery-billing-application.onrender.com/"]
+ALLOWED_HOSTS = ["grocery-billing-application.onrender.com"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -59,6 +59,8 @@ LOGIN_URL = '/login/'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main', 'static')]
+# Where collectstatic will put all static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = r'H:\billing\media'
