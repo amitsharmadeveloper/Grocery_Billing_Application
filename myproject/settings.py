@@ -1,14 +1,13 @@
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-secret-key'  # Change this!
+SECRET_KEY = 'your-secret-key'
 
-DEBUG = True
+DEBUG = False   # ❗ Set to False when deploying to Render
 
-ALLOWED_HOSTS = ["grocery-billing-application.onrender.com"]
+ALLOWED_HOSTS = ["grocery-billing-application.onrender.com", "localhost"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -36,12 +35,14 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'main', 'templates')],
         'APP_DIRS': True,
-        'OPTIONS': {'context_processors': [
-            'django.template.context_processors.debug',
-            'django.template.context_processors.request',
-            'django.contrib.auth.context_processors.auth',
-            'django.contrib.messages.context_processors.messages',
-        ]},
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
     },
 ]
 
@@ -56,20 +57,19 @@ DATABASES = {
 
 LOGIN_URL = '/login/'
 
-
+# ✅ STATIC FILES
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main', 'static')]
-# Where collectstatic will put all static files for production
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# ✅ MEDIA FILES (Render-friendly)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = r'H:\billing\media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')   # ❌ Change this from local H:\ path
 
-
-# SMTP Configuration (Gmail Example)
+# ✅ EMAIL CONFIG (Keep same)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'amityk45@gmail.com'
-EMAIL_HOST_PASSWORD = 'dtjd pnet kuug iiet'  # Use app-specific password
+EMAIL_HOST_PASSWORD = 'dtjd pnet kuug iiet'  # app password
