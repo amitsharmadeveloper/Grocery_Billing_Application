@@ -8,7 +8,7 @@ SECRET_KEY = 'your-secret-key'  # Change this!
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://grocery-billing-application.onrender.com/"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
