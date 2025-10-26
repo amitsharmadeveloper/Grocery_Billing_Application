@@ -1,0 +1,253 @@
+html , body{
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-image: url("../images/admin_bgdimage.png");
+        /*background-color: black; */
+        background-size:cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow-x: hidden;
+        width: 100%;
+        height:100%;
+}
+
+
+
+.button-container{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.buttons{
+    
+    background: linear-gradient(145deg, #ff1a1a, #cc0000);
+    color: #fff;
+    border: none;
+    width: fit-content;
+    padding: 10px 20px;
+    margin-top: 50vh;
+    margin-left: 270px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+ 
+.buttons:hover{
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+footer {
+    background: rgba(23, 10, 0, 0.871);
+    color:white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 450px;
+    font-size: 1.2rem;
+}
+
+
+@media (max-width: 1080px) {
+    * {
+        overflow-x: hidden;
+        overflow-y: hidden;
+        
+    }
+
+    .title{
+        text-align: center;
+        font-size: 42px;
+        color:rgb(243, 8, 8);
+    }
+
+    .button-container{
+        display: flex;
+        flex-direction: column;
+       
+          
+    }
+
+    .buttons{
+        
+        background: linear-gradient(145deg, #ff1a1a, #cc0000);
+        color: #fff;
+        border: none;
+        width: 300px;
+        padding: 10px 20px; 
+        margin-top: 07vh;
+        margin-left: 50px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-size: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        
+    }
+     
+    .buttons:hover{
+        box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+    }
+
+    a{
+        text-decoration: none;
+        color: white;
+    }
+}
+
+@media (max-width: 1024px) {
+    * {
+        overflow-x: hidden;
+        overflow-y: hidden;
+     
+    }
+
+    .title{
+        text-align: center;
+        font-size: 42px;
+        color:rgb(243, 8, 8);
+    }
+
+    .button-container{
+        display: flex;
+        flex-direction: column;
+        width:fit-content;
+          
+    }
+    .buttons{
+        
+        background: linear-gradient(145deg, #ff1a1a, #cc0000);
+        color: #fff;
+        border: none;
+        width: 300px;
+        /*padding: 10px 20px; */
+        margin-top: 45vh;
+        margin-left: 200px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-size: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        
+    }
+     
+    .button2{
+     margin-top:30px;
+    }
+
+    .buttons:hover{
+        box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+    }
+    a{
+        text-decoration: none;
+        color: white;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+    * {
+        overflow-x: hidden;
+        overflow-y: hidden;  
+        
+    }
+
+    .title{
+        text-align: center;
+        font-size: 28px;
+        color:rgb(243, 8, 8);
+    }
+
+    .button-container{
+        display: flex;
+        flex-direction: column;
+        width:fit-content;
+           
+    }
+    .buttons{
+        
+        background: linear-gradient(145deg, #ff1a1a, #cc0000);
+        color: #fff;
+        border: none;
+        width: 200px;
+        /*padding: 10px 20px; */
+        margin-top: 45vh;
+        margin-left: 83px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-size: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        
+    }
+     .button2{
+        margin-top: 30px;
+     }
+    .buttons:hover{
+        box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+    }
+    a{
+        text-decoration: none;
+        color: white;
+    }
+}
+
+
+@media (max-width: 1080px) {
+    * {
+        overflow-x: hidden;
+        overflow-y: hidden;  
+        
+    }
+
+    .button-container{
+        display: flex;
+        flex-direction: column;
+        width:fit-content;
+           
+    }
+    .buttons{
+        
+        background: linear-gradient(145deg, #ff1a1a, #cc0000);
+        color: #fff;
+        border: none;
+        width: 700px;
+        height:100px;
+        /*padding: 10px 20px; */
+        margin-top: 45vh;
+        margin-left: 200px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-size: 54px;
+        text-decoration: none;
+        font-weight: bold;
+        text-align: center;
+        
+    }
+
+     .button2{
+        margin-top: 50px;
+     }
+
+    .buttons:hover{
+        box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+    }
+    a{
+        text-decoration: none;
+        color: white;
+    }
+}
+
